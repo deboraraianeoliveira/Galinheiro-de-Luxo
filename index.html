@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -162,7 +162,7 @@
             transform: rotate(180deg);
         }
         .accordion-content {
-            padding: 0 40px; /* Padding ajustado para a animação */
+            padding: 0 40px; 
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.7s cubic-bezier(0.4, 0, 0.2, 1), padding 0.7s cubic-bezier(0.4, 0, 0.2, 1);
@@ -173,20 +173,20 @@
             background-repeat: no-repeat;
         }
         .accordion-content.open {
-            max-height: 700px; /* Valor alto para garantir que o conteúdo caiba */
-            padding: 40px; /* Padding quando a seção está aberta */
+            max-height: 700px;
+            padding: 40px; 
         }
         .accordion-content-inner {
             transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
             opacity: 0;
-            transform: translateY(20px); /* Valor reduzido para um efeito mais sutil */
+            transform: translateY(20px); 
             color: #FFFFFF;
         }
         .accordion-content.open .accordion-content-inner {
             opacity: 1;
             
             transform: translateY(0);
-            transition-delay: 0.5s; /* Adicionamos um pequeno atraso para a animação interna */
+            transition-delay: 0.5s;
             padding: 40px;
         }
         
@@ -207,19 +207,40 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            color: white; /* Garante que o texto seja legível */
+            color: white; 
         }
         
+        /* Estilos do menu mobile */
+        .mobile-menu {
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(100%);
+        }
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        /* Animações de Scroll-Triggered */
+        .section-animation {
+            opacity: 0;
+            transform: translateY(2rem);
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .section-animation.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
     </style>
 </head>
 <body class="bg-cream">
 
-    <header class="bg-cream sticky top-0 z-50 shadow-sm">
+    <header id="main-header" class="sticky top-0 z-50 shadow-sm transition-all duration-300 ease-in-out">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="text-2xl font-bold text-deep-green">
                 <span></span>
                 <span class="hidden sm:inline">Palácio Aviário</span>
             </div>
+            <!-- Menu para telas grandes -->
             <div class="hidden md:flex space-x-8">
                 <a href="#philosophy" class="nav-link">Filosofia</a>
                 <a href="#features" class="nav-link">Diferenciais</a>
@@ -227,10 +248,25 @@
                 <a href="#gallery" class="nav-link">Galeria</a>
                 <a href="#process" class="nav-link">Processo</a>
             </div>
+            
+            <!-- Botão de menu para celular -->
+            <button id="mobile-menu-btn" class="md:hidden text-deep-green text-3xl focus:outline-none">
+                &#9776;
+            </button>
             <a href="#contact" class="btn-primary font-bold py-2 px-6 rounded-full shadow-md">
                 Consultoria
             </a>
         </nav>
+        
+        <!-- Menu lateral para celular -->
+        <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-64 h-full bg-deep-green text-white shadow-lg p-6 flex flex-col items-start space-y-4 md:hidden z-40">
+            <button id="close-menu-btn" class="self-end text-white text-3xl focus:outline-none">&times;</button>
+            <a href="#philosophy" class="nav-link text-white text-lg w-full py-2">Filosofia</a>
+            <a href="#features" class="nav-link text-white text-lg w-full py-2">Diferenciais</a>
+            <a href="#calculator" class="nav-link text-white text-lg w-full py-2">Valor</a>
+            <a href="#gallery" class="nav-link text-white text-lg w-full py-2">Galeria</a>
+            <a href="#process" class="nav-link text-white text-lg w-full py-2">Processo</a>
+        </div>
     </header>
 
     <main>
@@ -242,11 +278,10 @@
                 <p class="text-lg md:text-xl mt-4 max-w-3xl mx-auto">
                     Elevamos o padrão de galinheiros a obras de arte funcionais, criando ambientes de bem-estar para suas aves e um ponto de sofisticação para sua propriedade.
                 </p>
-                <!-- A imagem foi movida para o fundo da seção via CSS -->
             </div>
         </section>
 
-        <section id="philosophy" class="py-20 bg-cream">
+        <section id="philosophy" class="section-animation py-20 bg-cream">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl md:text-4xl font-bold text-deep-green">Por Que um Galinheiro de Luxo?</h2>
@@ -254,22 +289,22 @@
                 </div>
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                     <div class="feature-card bg-white p-8 rounded-lg shadow-md border-t-4 border-accent-gold transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
-                        <div class="text-4xl mb-4">  </div>
+                        <div class="text-4xl mb-4"> </div>
                         <h3 class="text-xl font-bold text-deep-green mb-2">Bem-Estar Superior</h3>
                         <p class="text-gray-600">Espaço amplo, ventilação natural e materiais premium que garantem aves mais saudáveis, felizes e ovos de qualidade incomparável.</p>
                     </div>
                     <div class="feature-card bg-white p-8 rounded-lg shadow-md border-t-4 border-accent-gold transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
-                        <div class="text-4xl mb-4">  </div>
+                        <div class="text-4xl mb-4"> </div>
                         <h3 class="text-xl font-bold text-deep-green mb-2">Estética Integrada</h3>
                         <p class="text-gray-600">Designs que complementam a arquitetura da sua casa e a paisagem do seu jardim, transformando uma necessidade em um deleite visual.</p>
                     </div>
                     <div class="feature-card bg-white p-8 rounded-lg shadow-md border-t-4 border-accent-gold transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
-                        <div class="text-4xl mb-4">  </div>
+                        <div class="text-4xl mb-4"> </div>
                         <h3 class="text-xl font-bold text-deep-green mb-2">Sustentabilidade</h3>
                         <p class="text-gray-600">Utilizamos materiais sustentáveis e projetamos para a longevidade, promovendo um ciclo de vida autossuficiente e ecológico no seu quintal.</p>
                     </div>
                     <div class="feature-card bg-white p-8 rounded-lg shadow-md border-t-4 border-accent-gold transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
-                        <div class="text-4xl mb-4">  </div>
+                        <div class="text-4xl mb-4"> </div>
                         <h3 class="text-xl font-bold text-deep-green mb-2">Valorização do Imóvel</h3>
                         <p class="text-gray-600">Uma estrutura bem projetada e de alta qualidade não apenas enriquece sua vida, mas também agrega valor e apelo à sua propriedade.</p>
                     </div>
@@ -277,7 +312,7 @@
             </div>
         </section>
 
-        <section id="features" class="py-20 bg-white">
+        <section id="features" class="section-animation py-20 bg-white">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl md:text-4xl font-bold text-deep-green">Diferenciais de um Palácio Aviário</h2>
@@ -332,7 +367,7 @@
             </div>
         </section>
 
-        <section id="calculator" class="py-20 bg-cream">
+        <section id="calculator" class="section-animation py-20 bg-cream">
             <div class="container mx-auto px-6 text-center">
                 <h2 class="text-3xl md:text-4xl font-bold text-deep-green">Calcule o Valor dos Seus Ovos</h2>
                 <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Um galinheiro de luxo é um investimento no seu bem-estar e na sua alimentação. Veja o potencial de produção de ovos frescos e de alta qualidade que você pode ter.</p>
@@ -348,7 +383,7 @@
             </div>
         </section>
 
-        <section id="gallery" class="py-20 bg-white">
+        <section id="gallery" class="section-animation py-20 bg-white">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl md:text-4xl font-bold text-deep-green">Galeria de Inspirações</h2>
@@ -377,7 +412,7 @@
             </div>
         </section>
         
-        <section id="process" class="py-20 bg-cream">
+        <section id="process" class="section-animation py-20 bg-cream">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
                     <h2 class="text-3xl md:text-4xl font-bold text-deep-green">Nosso Processo: Da Ideia à Realidade</h2>
@@ -432,7 +467,40 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Accordion functionality
+            // Lógica para as animações
+            const header = document.getElementById('main-header');
+            const sections = document.querySelectorAll('.section-animation');
+
+            // Animação do cabeçalho ao rolar a página
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('bg-white', 'backdrop-blur-sm', 'shadow-lg');
+                } else {
+                    header.classList.remove('bg-white', 'backdrop-blur-sm', 'shadow-lg');
+                }
+            });
+
+            // Animação de seções ao entrar na área visível (IntersectionObserver)
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.2
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Acordeão
             const accordionHeaders = document.querySelectorAll('.accordion-header');
             accordionHeaders.forEach(header => {
                 header.addEventListener('click', () => {
@@ -442,6 +510,7 @@
                 });
             });
 
+            // Gráfico e calculadora
             const chickenSlider = document.getElementById('chicken-slider');
             const chickenCount = document.getElementById('chicken-count');
             const chartCanvas = document.getElementById('egg-chart');
@@ -515,15 +584,7 @@
 
             updateChart(chickenSlider.value);
             
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                });
-            });
-
+            // Modal de imagem
             const modal = document.getElementById("image-modal");
             const modalImg = document.getElementById("modal-image");
             const galleryItems = document.querySelectorAll(".gallery-item img");
@@ -538,6 +599,37 @@
             window.closeModal = function() {
                 modal.style.display = "none";
             }
+
+            // Mobile menu functionality
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const closeMenuBtn = document.getElementById('close-menu-btn');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.add('open');
+            });
+
+            closeMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+            });
+            
+            // Fecha o menu quando um link é clicado
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('open');
+                });
+            });
+
+            // Rolagem suave
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
         });
     </script>
 </body>
