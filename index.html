@@ -237,8 +237,8 @@
     <header id="main-header" class="sticky top-0 z-50 shadow-sm transition-all duration-300 ease-in-out">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="text-2xl font-bold text-deep-green">
-                <span></span>
-                <span class="hidden sm:inline">Palácio Aviário</span>
+                <span class="md:hidden">&#9776;</span>
+                <span class="sm:hidden md:inline">Palácio Aviário</span>
             </div>
             <!-- Menu para telas grandes -->
             <div class="hidden md:flex space-x-8">
@@ -325,7 +325,7 @@
                             <h3 class="text-lg md:text-xl font-bold">🛡️ Segurança</h3>
                             <span class="icon transform transition-transform duration-300">&#9660;</span>
                         </div>
-                        <div class="accordion-content">
+                        <div class="accordion-content px-4 md:px-10">
                             <div class="accordion-content-inner">
                                 <p>
                                     Projetamos com sistemas anti-predadores robustos, incluindo telas de aço galvanizado, fundações seguras que impedem escavações e travas duplas. Suas aves dormem em total segurança, e você também.
@@ -340,7 +340,7 @@
                             <h3 class="text-lg md:text-xl font-bold">❤️ Conforto & Saúde</h3>
                             <span class="icon transform transition-transform duration-300">&#9660;</span>
                         </div>
-                        <div class="accordion-content">
+                        <div class="accordion-content px-4 md:px-10">
                             <div class="accordion-content-inner">
                                 <p>
                                     O conforto é medido em ventilação cruzada que previne doenças, poleiros ergonômicos que respeitam a anatomia das aves e ninhos privativos. Materiais naturais como madeira tratada regulam a temperatura, garantindo um ambiente ideal em qualquer estação.
@@ -355,7 +355,7 @@
                             <h3 class="text-lg md:text-xl font-bold">⚙️ Automação</h3>
                             <span class="icon transform transition-transform duration-300">&#9660;</span>
                         </div>
-                        <div class="accordion-content">
+                        <div class="accordion-content px-4 md:px-10">
                             <div class="accordion-content-inner">
                                 <p>
                                     Integramos portas automáticas com temporizador ou sensor de luminosidade, alimentadores e bebedouros de alta capacidade que reduzem a manutenção diária. Dedique seu tempo a desfrutar dos ovos frescos, não à rotina.
@@ -470,6 +470,9 @@
             // Lógica para as animações
             const header = document.getElementById('main-header');
             const sections = document.querySelectorAll('.section-animation');
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const closeMenuBtn = document.getElementById('close-menu-btn');
 
             // Animação do cabeçalho ao rolar a página
             window.addEventListener('scroll', () => {
@@ -601,10 +604,6 @@
             }
 
             // Mobile menu functionality
-            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-            const mobileMenu = document.getElementById('mobile-menu');
-            const closeMenuBtn = document.getElementById('close-menu-btn');
-
             mobileMenuBtn.addEventListener('click', () => {
                 mobileMenu.classList.add('open');
             });
