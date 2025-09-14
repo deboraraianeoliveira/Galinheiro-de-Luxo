@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galinheiros de Luxo - Arquitetura Aviária</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+        }
+        .bg-cream { background-color: #FDFBF8; }
+        .bg-deep-green { background-color: #3D553A; }
+        .text-deep-green { color: #3D553A; }
+        .text-accent-gold { color: #B8860B; }
+        .border-accent-gold { border-color: #B8860B; }
+        .btn-primary {
+            background-color: #3D553A;
+            color: #FFFFFF;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #2F422C;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #B8860B;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #B8860B;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        }
+        .gallery-item {
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.4s ease, border-radius 0.4s ease, box-shadow 0.4s ease;
+        }
+        .gallery-item img {
+            transition: transform 0.4s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: -20px;
+            width: 12px;
+            height: 12px;
+            background-color: #B8860B;
+            border-radius: 50%;
+            border: 2px solid #FDFBF8;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 50vh;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.9);
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+        @keyframes zoom {
+            from {transform: scale(0.1)} 
+            to {transform: scale(1)}
+        }
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /* --- ACORDEÃO E ANIMAÇÃO REVISADOS --- */
+        .accordion-item {
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+        }
+        .accordion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            cursor: pointer;
+            font-weight: bold;
+            color: #3D553A;
+            transition: background-color 0.3s ease;
+            position: relative;
+            z-index: 10;
+        }
+        .accordion-header:hover {
+            background-color: #F5F5F5;
+        }
+        .accordion-header .icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .accordion-header.active .icon {
+            transform: rotate(180deg);
+        }
+        .accordion-content {
+            padding: 0 40px; /* Padding ajustado para a animação */
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.7s cubic-bezier(0.4, 0, 0.2, 1), padding 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 1rem;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .accordion-content.open {
+            max-height: 700px; /* Valor alto para garantir que o conteúdo caiba */
+            padding: 40px; /* Padding quando a seção está aberta */
+        }
+        .accordion-content-inner {
+            transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(20px); /* Valor reduzido para um efeito mais sutil */
+            color: #FFFFFF;
+        }
+        .accordion-content.open .accordion-content-inner {
+            opacity: 1;
+            
+            transform: translateY(0);
+            transition-delay: 0.5s; /* Adicionamos um pequeno atraso para a animação interna */
+            padding: 40px;
+        }
+        
+        /* Imagens de fundo para o acordeão */
+        .accordion-item:nth-child(1) .accordion-content {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://www.notibras.com/site/wp-content/uploads/2019/03/raposa.18.jpg');
+        }
+        .accordion-item:nth-child(2) .accordion-content {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://cdn.pixabay.com/video/2022/11/22/139969-774032930_tiny.jpg');
+        }
+        .accordion-item:nth-child(3) .accordion-content {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://hytrade.com.br/wp-content/uploads/2025/05/Artigo-HyTrade-Automacao-Tradicional-vs-Agentes-de-Inteligencia-Artificial.jpg');
+        }
+        
+        /* Adicionando a imagem de fundo para a seção do herói */
+        #hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://png.pngtree.com/thumb_back/fh260/background/20221104/pngtree-modern-chicken-coop-farm-line-production-fowl-photo-image_3188717.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white; /* Garante que o texto seja legível */
+        }
+        
+    </style>
+</head>
+<body class="bg-cream">
+
+    <header class="bg-cream sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-deep-green">
+                <span></span>
+                <span class="hidden sm:inline">Palácio Aviário</span>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#philosophy" class="nav-link">Filosofia</a>
+                <a href="#features" class="nav-link">Diferenciais</a>
+                <a href="#calculator" class="nav-link">Valor</a>
+                <a href="#gallery" class="nav-link">Galeria</a>
+                <a href="#process" class="nav-link">Processo</a>
+            </div>
+            <a href="#contact" class="btn-primary font-bold py-2 px-6 rounded-full shadow-md">
+                Consultoria
+            </a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero" class="relative text-center py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                <h1 class="text-4xl md:text-6xl font-bold leading-tight">
+                    Arquitetura que Celebra a Vida.
+                </h1>
+                <p class="text-lg md:text-xl mt-4 max-w-3xl mx-auto">
+                    Elevamos o padrão de galinheiros a obras de arte funcionais, criando ambientes de bem-estar para suas aves e um ponto de sofisticação para sua propriedade.
+                </p>
+                <!-- A imagem foi movida para o fundo da seção via CSS -->
+            </div>
+        </section>
+
+        <section id="philosophy" class="py-20 bg-cream">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-deep-green">Por Que um Galinheiro de Luxo?</h2>
+                    <p class="mt-4 text-gray-600 max-w-2xl mx-auto">É mais do que um abrigo. É um ecossistema projetado para o florescimento, unindo bem-estar animal, sustentabilidade e estética superior.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="feature-card bg-white p-8 rounded-lg shadow-md border-t-4 border-accent-gold transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+                        <div class="text-4xl mb-4">  </div>
+                        <h3 class="text-xl font-bold text-deep-green mb-2">Bem-Estar Superior</h3>
+                        <p class="text-gray-600">Espaço amplo, ventilação natural e materiais premium que garantem aves mais saudáveis, felizes e ovos de qualidade incomparável.</p>
+                    </div>
+                    <div class="feature-card bg-white p-8 rounded-lg shadow-md border-t-4 border-accent-gold transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+                        <div class="text-4xl mb-4">  </div>
+                        <h3 class="text-xl font-bold text-deep-green mb-2">Estética Integrada</h3>
+                        <p class="text-gray-600">Designs que complementam a arquitetura da sua casa e a paisagem do seu jardim, transformando uma necessidade em um deleite visual.</p>
+                    </div>
+                    <div class="feature-card bg-white p-8 rounded-lg shadow-md border-t-4 border-accent-gold transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+                        <div class="text-4xl mb-4">  </div>
+                        <h3 class="text-xl font-bold text-deep-green mb-2">Sustentabilidade</h3>
+                        <p class="text-gray-600">Utilizamos materiais sustentáveis e projetamos para a longevidade, promovendo um ciclo de vida autossuficiente e ecológico no seu quintal.</p>
+                    </div>
+                    <div class="feature-card bg-white p-8 rounded-lg shadow-md border-t-4 border-accent-gold transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+                        <div class="text-4xl mb-4">  </div>
+                        <h3 class="text-xl font-bold text-deep-green mb-2">Valorização do Imóvel</h3>
+                        <p class="text-gray-600">Uma estrutura bem projetada e de alta qualidade não apenas enriquece sua vida, mas também agrega valor e apelo à sua propriedade.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-deep-green">Diferenciais de um Palácio Aviário</h2>
+                    <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Conheça os detalhes que tornam nossos galinheiros únicos. Clique para saber mais sobre cada diferencial.</p>
+                </div>
+                <div class="max-w-4xl mx-auto space-y-4">
+                    <!-- Security Accordion Item -->
+                    <div class="accordion-item">
+                        <div class="accordion-header flex justify-between items-center cursor-pointer">
+                            <h3 class="text-lg md:text-xl font-bold">🛡️ Segurança</h3>
+                            <span class="icon transform transition-transform duration-300">&#9660;</span>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                <p>
+                                    Projetamos com sistemas anti-predadores robustos, incluindo telas de aço galvanizado, fundações seguras que impedem escavações e travas duplas. Suas aves dormem em total segurança, e você também.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comfort & Health Accordion Item -->
+                    <div class="accordion-item">
+                        <div class="accordion-header flex justify-between items-center cursor-pointer">
+                            <h3 class="text-lg md:text-xl font-bold">❤️ Conforto & Saúde</h3>
+                            <span class="icon transform transition-transform duration-300">&#9660;</span>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                <p>
+                                    O conforto é medido em ventilação cruzada que previne doenças, poleiros ergonômicos que respeitam a anatomia das aves e ninhos privativos. Materiais naturais como madeira tratada regulam a temperatura, garantindo um ambiente ideal em qualquer estação.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Automation Accordion Item -->
+                    <div class="accordion-item">
+                        <div class="accordion-header flex justify-between items-center cursor-pointer">
+                            <h3 class="text-lg md:text-xl font-bold">⚙️ Automação</h3>
+                            <span class="icon transform transition-transform duration-300">&#9660;</span>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                <p>
+                                    Integramos portas automáticas com temporizador ou sensor de luminosidade, alimentadores e bebedouros de alta capacidade que reduzem a manutenção diária. Dedique seu tempo a desfrutar dos ovos frescos, não à rotina.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="calculator" class="py-20 bg-cream">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-deep-green">Calcule o Valor dos Seus Ovos</h2>
+                <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Um galinheiro de luxo é um investimento no seu bem-estar e na sua alimentação. Veja o potencial de produção de ovos frescos e de alta qualidade que você pode ter.</p>
+                <div class="max-w-4xl mx-auto mt-12 p-8 bg-white rounded-lg shadow-xl">
+                    <div class="mb-8">
+                        <label for="chicken-slider" class="block text-lg font-medium text-gray-700 mb-4">Selecione o número de galinhas: <span id="chicken-count" class="text-accent-gold font-bold text-2xl">5</span></label>
+                        <input id="chicken-slider" type="range" min="2" max="20" value="5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer" style="accent-color: #3D553A;">
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="egg-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-deep-green">Galeria de Inspirações</h2>
+                    <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Cada projeto é único, refletindo a personalidade do proprietário e a harmonia com o ambiente. Veja alguns de nossos trabalhos.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="gallery-item rounded-xl overflow-hidden shadow-lg border-4 border-white transform hover:scale-105 transition-transform duration-300">
+                        <img src="https://blogdageminiana.wordpress.com/wp-content/uploads/2013/07/05273-untitled6.png" data-full="https://blogdageminiana.wordpress.com/wp-content/uploads/2013/07/05273-untitled6.png" alt="Galinheiro estilo rústico com madeira natural" class="w-full h-64 object-cover">
+                    </div>
+                    <div class="gallery-item rounded-xl overflow-hidden shadow-lg border-4 border-white transform hover:scale-105 transition-transform duration-300">
+                        <img src="https://i.pinimg.com/236x/f7/ff/4d/f7ff4d8d9038a8ba407260757350eba7.jpg" data-full="https://i.pinimg.com/236x/f7/ff/4d/f7ff4d8d9038a8ba407260757350eba7.jpg" alt="Galinheiro com design moderno e linhas retas" class="w-full h-64 object-cover">
+                    </div>
+                    <div class="gallery-item rounded-xl overflow-hidden shadow-lg border-4 border-white transform hover:scale-105 transition-transform duration-300">
+                        <img src="https://cdn.leroymerlin.com.br/products/galinheiro_madeira_movel_casinha_animais_pet_coelho_1567041542_da96_600x600.jpg" data-full="https://cdn.leroymerlin.com.br/products/galinheiro_madeira_movel_casinha_animais_pet_coelho_1567041542_da96_600x600.jpg" alt="Galinheiro clássico com telhado de duas águas" class="w-full h-64 object-cover">
+                    </div>
+                    <div class="gallery-item rounded-xl overflow-hidden shadow-lg border-4 border-white transform hover:scale-105 transition-transform duration-300">
+                        <img src="https://i.etsystatic.com/43986965/r/il/a23ad5/6311287940/il_570xN.6311287940_1mbk.jpg" data-full="https://i.etsystatic.com/43986965/r/il/a23ad5/6311287940/il_570xN.6311287940_1mbk.jpg" alt="Galinheiro de design minimalista" class="w-full h-64 object-cover">
+                    </div>
+                    <div class="gallery-item rounded-xl overflow-hidden shadow-lg border-4 border-white transform hover:scale-105 transition-transform duration-300">
+                        <img src="https://i.pinimg.com/736x/d3/4b/e5/d34be5e1c0ed2393ee87ad7a81326c00.jpg" data-full="https://i.pinimg.com/736x/d3/4b/e5/d34be5e1c0ed2393ee87ad7a81326c00.jpg" alt="Galinheiro com formato de celeiro" class="w-full h-64 object-cover">
+                    </div>
+                    <div class="gallery-item rounded-xl overflow-hidden shadow-lg border-4 border-white transform hover:scale-105 transition-transform duration-300">
+                        <img src="https://m.media-amazon.com/images/I/91KeMRcKJyL._UF350,350_QL80_.jpg" data-full="https://m.media-amazon.com/images/I/91KeMRcKJyL._UF350,350_QL80_.jpg" alt="Galinheiro integrado a um jardim florido" class="w-full h-64 object-cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="process" class="py-20 bg-cream">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-deep-green">Nosso Processo: Da Ideia à Realidade</h2>
+                    <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Transformamos seu sonho em realidade com um processo transparente, colaborativo e focado na excelência.</p>
+                </div>
+                <div class="relative max-w-2xl mx-auto">
+                    <div class="absolute left-4 top-0 h-full w-0.5 bg-gray-300"></div>
+                    <div class="timeline-item relative pl-12 pb-12">
+                        <h3 class="text-xl font-bold text-accent-gold mb-1">Passo 1: Consultoria e Visão</h3>
+                        <p class="text-gray-600">Entendemos suas necessidades, o espaço disponível e sua visão estética para criar um conceito inicial totalmente personalizado.</p>
+                    </div>
+                    <div class="timeline-item relative pl-12 pb-12">
+                        <h3 class="text-xl font-bold text-accent-gold mb-1">Passo 2: Design e Projeto 3D</h3>
+                        <p class="text-gray-600">Desenvolvemos um projeto detalhado, incluindo renderizações 3D, para que você possa visualizar cada detalhe do futuro lar de suas aves.</p>
+                    </div>
+                    <div class="timeline-item relative pl-12 pb-12">
+                        <h3 class="text-xl font-bold text-accent-gold mb-1">Passo 3: Construção Artesanal</h3>
+                        <p class="text-gray-600">Nossa equipe de artesãos utiliza materiais da mais alta qualidade para construir a estrutura com precisão e cuidado, seja no nosso ateliê ou no local.</p>
+                    </div>
+                    <div class="timeline-item relative pl-12">
+                        <h3 class="text-xl font-bold text-accent-gold mb-1">Passo 4: Entrega e Instalação</h3>
+                        <p class="text-gray-600">Coordenamos a entrega e instalação, garantindo que tudo esteja perfeito e pronto para receber suas novas moradoras.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-20 bg-deep-green text-white">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold">Pronto para Começar?</h2>
+                <p class="mt-4 text-lg text-gray-300 max-w-2xl mx-auto">Vamos conversar sobre como podemos criar o galinheiro perfeito para você e suas aves. Agende uma consultoria sem compromisso.</p>
+                <div class="mt-8">
+                    <a href="#" class="bg-white text-deep-green font-bold py-4 px-10 rounded-full shadow-lg text-lg transition duration-300 hover:bg-gray-200 transform hover:scale-105">
+                        Agendar Consultoria
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="image-modal" class="modal" onclick="closeModal()">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modal-image">
+    </div>
+
+    <footer class="bg-white py-8">
+        <div class="container mx-auto px-6 text-center text-gray-600">
+            <p>&copy; 2025 Palácio Aviário. Todos os direitos reservados.</p>
+            <p class="text-sm mt-2">Design de Galinheiros de Luxo com Paixão e Propósito.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Accordion functionality
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const content = header.nextElementSibling;
+                    header.classList.toggle('active');
+                    content.classList.toggle('open');
+                });
+            });
+
+            const chickenSlider = document.getElementById('chicken-slider');
+            const chickenCount = document.getElementById('chicken-count');
+            const chartCanvas = document.getElementById('egg-chart');
+            let eggChart;
+
+            function updateChart(chickenAmount) {
+                chickenCount.textContent = chickenAmount;
+                const eggsPerWeek = chickenAmount * 5; 
+                const eggsPerMonth = eggsPerWeek * 4;
+                const eggsPerYear = eggsPerMonth * 12;
+
+                const data = {
+                    labels: ['Ovos por Semana', 'Ovos por Mês', 'Ovos por Ano'],
+                    datasets: [{
+                        label: 'Produção Estimada de Ovos',
+                        data: [eggsPerWeek, eggsPerMonth, eggsPerYear],
+                        backgroundColor: [
+                            'rgba(184, 134, 11, 0.6)',
+                            'rgba(61, 85, 58, 0.7)',
+                            'rgba(61, 85, 58, 0.9)'
+                        ],
+                        borderColor: [
+                            'rgba(184, 134, 11, 1)',
+                            'rgba(61, 85, 58, 1)',
+                            'rgba(61, 85, 58, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                };
+
+                if (eggChart) {
+                    eggChart.data = data;
+                    eggChart.update();
+                } else {
+                    const ctx = chartCanvas.getContext('2d');
+                    eggChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: data,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    display: false
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            return `${context.dataset.label}: ${context.raw} ovos`;
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    title: {
+                                        display: true,
+                                        text: 'Quantidade de Ovos'
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+
+            chickenSlider.addEventListener('input', (event) => {
+                updateChart(event.target.value);
+            });
+
+            updateChart(chickenSlider.value);
+            
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            const modal = document.getElementById("image-modal");
+            const modalImg = document.getElementById("modal-image");
+            const galleryItems = document.querySelectorAll(".gallery-item img");
+
+            galleryItems.forEach(item => {
+                item.addEventListener("click", () => {
+                    modal.style.display = "block";
+                    modalImg.src = item.dataset.full;
+                });
+            });
+
+            window.closeModal = function() {
+                modal.style.display = "none";
+            }
+        });
+    </script>
+</body>
+</html>
