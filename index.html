@@ -237,8 +237,7 @@
     <header id="main-header" class="sticky top-0 z-50 shadow-sm transition-all duration-300 ease-in-out">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="text-2xl font-bold text-deep-green">
-                <span class="md:hidden">&#9776;</span>
-                <span class="sm:hidden md:inline">Palácio Aviário</span>
+                <span>Palácio Aviário</span>
             </div>
             <!-- Menu para telas grandes -->
             <div class="hidden md:flex space-x-8">
@@ -250,16 +249,18 @@
             </div>
             
             <!-- Botão de menu para celular -->
-            <button id="mobile-menu-btn" class="md:hidden text-deep-green text-3xl focus:outline-none">
-                &#9776;
-            </button>
-            <a href="#contact" class="btn-primary font-bold py-2 px-6 rounded-full shadow-md">
-                Consultoria
-            </a>
+            <div class="flex items-center space-x-4">
+                <button id="mobile-menu-btn" class="md:hidden text-deep-green text-3xl focus:outline-none">
+                    &#9776;
+                </button>
+                <a href="#contact" class="btn-primary font-bold py-2 px-6 rounded-full shadow-md">
+                    Consultoria
+                </a>
+            </div>
         </nav>
         
         <!-- Menu lateral para celular -->
-        <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-64 h-full bg-deep-green text-white shadow-lg p-6 flex flex-col items-start space-y-4 md:hidden z-40">
+        <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-64 h-full bg-deep-green text-white shadow-lg p-6 flex flex-col items-start space-y-4 md:hidden z-[60]">
             <button id="close-menu-btn" class="self-end text-white text-3xl focus:outline-none">&times;</button>
             <a href="#philosophy" class="nav-link text-white text-lg w-full py-2">Filosofia</a>
             <a href="#features" class="nav-link text-white text-lg w-full py-2">Diferenciais</a>
@@ -400,7 +401,7 @@
                         <img src="https://cdn.leroymerlin.com.br/products/galinheiro_madeira_movel_casinha_animais_pet_coelho_1567041542_da96_600x600.jpg" data-full="https://cdn.leroymerlin.com.br/products/galinheiro_madeira_movel_casinha_animais_pet_coelho_1567041542_da96_600x600.jpg" alt="Galinheiro clássico com telhado de duas águas" class="w-full h-64 object-cover">
                     </div>
                     <div class="gallery-item rounded-xl overflow-hidden shadow-lg border-4 border-white transform hover:scale-105 transition-transform duration-300">
-                        <img src="https://i.etsystatic.com/43986965/r/il/a23ad5/6311287940/il_570xN.6311287940_1mbk.jpg" data-full="https://i.etsystatic.com/43986965/r/il/a23ad5/6311287940/il_570xN.6311287940_1mbk.jpg" alt="Galinheiro de design minimalista" class="w-full h-64 object-cover">
+                        <img src="https://i.etsystatic.com/43986965/r/il/a23ad5/6311287940/il_570xN.6311287940_1mbk.jpg" data-full="https://i.etsystatic.com/43986965/r/il/a23ad5/6311287940_1mbk.jpg" alt="Galinheiro de design minimalista" class="w-full h-64 object-cover">
                     </div>
                     <div class="gallery-item rounded-xl overflow-hidden shadow-lg border-4 border-white transform hover:scale-105 transition-transform duration-300">
                         <img src="https://i.pinimg.com/736x/d3/4b/e5/d34be5e1c0ed2393ee87ad7a81326c00.jpg" data-full="https://i.pinimg.com/736x/d3/4b/e5/d34be5e1c0ed2393ee87ad7a81326c00.jpg" alt="Galinheiro com formato de celeiro" class="w-full h-64 object-cover">
