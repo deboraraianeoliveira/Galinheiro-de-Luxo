@@ -131,7 +131,6 @@
             text-decoration: none;
             cursor: pointer;
         }
-        /* --- ACORDEÃO E ANIMAÇÃO REVISADOS --- */
         .accordion-item {
             border-radius: 0.75rem;
             margin-bottom: 1rem;
@@ -214,6 +213,7 @@
         .mobile-menu {
             transition: transform 0.3s ease-in-out;
             transform: translateX(100%);
+            z-index: 90; /* Z-index aumentado para ficar acima de tudo */
         }
         .mobile-menu.open {
             transform: translateX(0);
@@ -248,19 +248,19 @@
                 <a href="#process" class="nav-link">Processo</a>
             </div>
             
-            <!-- Botão de menu para celular -->
+            <!-- Botões para celular -->
             <div class="flex items-center space-x-4">
-                <button id="mobile-menu-btn" class="md:hidden text-deep-green text-3xl focus:outline-none">
-                    &#9776;
-                </button>
                 <a href="#contact" class="btn-primary font-bold py-2 px-6 rounded-full shadow-md">
                     Consultoria
                 </a>
+                <button id="mobile-menu-btn" class="md:hidden text-deep-green text-3xl focus:outline-none">
+                    &#9776;
+                </button>
             </div>
         </nav>
         
         <!-- Menu lateral para celular -->
-        <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-64 h-full bg-deep-green text-white shadow-lg p-6 flex flex-col items-start space-y-4 md:hidden z-[60]">
+        <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-64 h-full bg-deep-green text-white shadow-lg p-6 flex flex-col items-start space-y-4 md:hidden z-[90]">
             <button id="close-menu-btn" class="self-end text-white text-3xl focus:outline-none">&times;</button>
             <a href="#philosophy" class="nav-link text-white text-lg w-full py-2">Filosofia</a>
             <a href="#features" class="nav-link text-white text-lg w-full py-2">Diferenciais</a>
