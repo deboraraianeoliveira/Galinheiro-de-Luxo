@@ -94,15 +94,17 @@
             max-height: 50vh;
         }
         .modal {
-            display: none;
+            display: none; /* Corrigido */
             position: fixed;
-            z-index: 100;
+            z-index: 1000;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
             overflow: auto;
             background-color: rgba(0,0,0,0.9);
+            align-items: center;
+            justify-content: center;
         }
         .modal-content {
             margin: auto;
@@ -111,6 +113,7 @@
             max-width: 700px;
             animation-name: zoom;
             animation-duration: 0.6s;
+            position: relative;
         }
         @keyframes zoom {
             from {transform: scale(0.1)} 
@@ -213,7 +216,7 @@
         .mobile-menu {
             transition: transform 0.3s ease-in-out;
             transform: translateX(100%);
-            z-index: 90; /* Z-index aumentado para ficar acima de tudo */
+            z-index: 1000;
         }
         .mobile-menu.open {
             transform: translateX(0);
@@ -250,17 +253,17 @@
             
             <!-- Botões para celular -->
             <div class="flex items-center space-x-4">
-                <a href="#contact" class="btn-primary font-bold py-2 px-6 rounded-full shadow-md">
-                    Consultoria
-                </a>
                 <button id="mobile-menu-btn" class="md:hidden text-deep-green text-3xl focus:outline-none">
                     &#9776;
                 </button>
+                <a href="#contact" class="btn-primary font-bold py-2 px-6 rounded-full shadow-md">
+                    Consultoria
+                </a>
             </div>
         </nav>
         
         <!-- Menu lateral para celular -->
-        <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-64 h-full bg-deep-green text-white shadow-lg p-6 flex flex-col items-start space-y-4 md:hidden z-[90]">
+        <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-64 h-full bg-deep-green text-white shadow-lg p-6 flex flex-col items-start space-y-4 md:hidden z-[1000]">
             <button id="close-menu-btn" class="self-end text-white text-3xl focus:outline-none">&times;</button>
             <a href="#philosophy" class="nav-link text-white text-lg w-full py-2">Filosofia</a>
             <a href="#features" class="nav-link text-white text-lg w-full py-2">Diferenciais</a>
@@ -595,7 +598,7 @@
 
             galleryItems.forEach(item => {
                 item.addEventListener("click", () => {
-                    modal.style.display = "block";
+                    modal.style.display = "flex";
                     modalImg.src = item.dataset.full;
                 });
             });
