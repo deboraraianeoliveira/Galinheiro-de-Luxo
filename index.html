@@ -189,8 +189,8 @@
             gap: 1.5rem;
             padding-bottom: 1rem;
             width: 100%; 
-            padding-left: 1.5rem;
-            padding-right: 1.5rem;
+            padding-left: 3rem; /* Espaçamento ajustado */
+            padding-right: 3rem; /* Espaçamento ajustado */
         }
         
         .card-container {
@@ -207,15 +207,10 @@
             border-radius: 9999px;
             cursor: pointer;
             z-index: 10;
-            transition: all 0.2s ease;
+            transition: background-color 0.2s ease;
         }
         .carousel-button:hover {
             background-color: rgba(61, 85, 58, 1);
-            transform: scale(1.1);
-        }
-
-        .card-image {
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05);
         }
         
         .mobile-nav {
@@ -228,6 +223,45 @@
             max-height: 500px;
         }
 
+        /* Novo estilo de card para a galeria */
+        .gallery-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            height: 400px;
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+            background-size: cover;
+            background-position: center;
+        }
+        .gallery-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        .gallery-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 50%);
+            z-index: 1;
+            transition: background-color 0.3s ease;
+        }
+        .gallery-card:hover::before {
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 50%);
+        }
+        .gallery-card-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+        }
+        
     </style>
 </head>
 <body class="bg-cream">
@@ -398,61 +432,55 @@
                 <div id="carousel-wrapper" class="flex overflow-x-auto scroll-smooth no-scrollbar snap-x snap-mandatory gap-6">
                     <!-- Card 1 -->
                     <div class="card-container">
-                        <div class="p-4 bg-white rounded-3xl shadow-2xl border border-gray-100 transform transition-transform duration-300 hover:scale-105">
-                            <img src="https://blogdageminiana.wordpress.com/wp-content/uploads/2013/07/05273-untitled6.png" alt="Galinheiro estilo rústico" class="w-full h-72 object-cover rounded-2xl mb-4 card-image">
-                            <div class="px-2 pb-2">
-                                <h3 class="text-xl font-bold text-deep-green mb-1">Elegância Rústica</h3>
-                                <p class="text-sm text-gray-600">Um design atemporal que combina perfeitamente com a paisagem natural.</p>
+                        <div class="gallery-card" style="background-image: url('https://blogdageminiana.wordpress.com/wp-content/uploads/2013/07/05273-untitled6.png');">
+                            <div class="gallery-card-content">
+                                <h3 class="text-2xl font-bold">Elegância Rústica</h3>
+                                <p class="text-sm">Um design atemporal que combina perfeitamente com a paisagem natural.</p>
                             </div>
                         </div>
                     </div>
                     <!-- Card 2 -->
                     <div class="card-container">
-                        <div class="p-4 bg-white rounded-3xl shadow-2xl border border-gray-100 transform transition-transform duration-300 hover:scale-105">
-                            <img src="https://i.pinimg.com/236x/f7/ff/4d/f7ff4d8d9038a8ba407260757350eba7.jpg" alt="Galinheiro com design moderno e linhas retas" class="w-full h-72 object-cover rounded-2xl mb-4 card-image">
-                            <div class="px-2 pb-2">
-                                <h3 class="text-xl font-bold text-deep-green mb-1">Minimalismo Moderno</h3>
-                                <p class="text-sm text-gray-600">Linhas limpas e materiais contemporâneos para uma estética sofisticada.</p>
+                        <div class="gallery-card" style="background-image: url('https://media.istockphoto.com/id/647389802/pt/foto/chicken-coop-bantam.jpg?s=612x612&w=0&k=20&c=L407eqHfiYA1hgZG6EJfqQSp_aTFzmbMxxERotRW7GM=');">
+                            <div class="gallery-card-content">
+                                <h3 class="text-2xl font-bold">Minimalismo Moderno</h3>
+                                <p class="text-sm">Linhas limpas e materiais contemporâneos para uma estética sofisticada.</p>
                             </div>
                         </div>
                     </div>
                     <!-- Card 3 -->
                     <div class="card-container">
-                        <div class="p-4 bg-white rounded-3xl shadow-2xl border border-gray-100 transform transition-transform duration-300 hover:scale-105">
-                            <img src="https://cdn.leroymerlin.com.br/products/galinheiro_madeira_movel_casinha_animais_pet_coelho_1567041542_da96_600x600.jpg" alt="Galinheiro clássico" class="w-full h-72 object-cover rounded-2xl mb-4 card-image">
-                            <div class="px-2 pb-2">
-                                <h3 class="text-xl font-bold text-deep-green mb-1">Clássico Tradicional</h3>
-                                <p class="text-sm text-gray-600">Um design que remete aos galinheiros de fazenda, com todo o luxo e conforto.</p>
+                        <div class="gallery-card" style="background-image: url('https://cdn.leroymerlin.com.br/products/galinheiro_madeira_movel_casinha_animais_pet_coelho_1567041542_da96_600x600.jpg');">
+                            <div class="gallery-card-content">
+                                <h3 class="text-2xl font-bold">Clássico Tradicional</h3>
+                                <p class="text-sm">Um design que remete aos galinheiros de fazenda, com todo o luxo e conforto.</p>
                             </div>
                         </div>
                     </div>
                     <!-- Card 4 -->
                     <div class="card-container">
-                        <div class="p-4 bg-white rounded-3xl shadow-2xl border border-gray-100 transform transition-transform duration-300 hover:scale-105">
-                            <img src="https://i.etsystatic.com/43986965/r/il/a23ad5/6311287940/il_570xN.6311287940_1mbk.jpg" alt="Galinheiro minimalista" class="w-full h-72 object-cover rounded-2xl mb-4 card-image">
-                            <div class="px-2 pb-2">
-                                <h3 class="text-xl font-bold text-deep-green mb-1">Simplicidade e Funcionalidade</h3>
-                                <p class="text-sm text-gray-600">Um design minimalista focado na eficiência e na beleza dos materiais.</p>
+                        <div class="gallery-card" style="background-image: url('https://i.etsystatic.com/43986965/r/il/a23ad5/6311287940/il_570xN.6311287940_1mbk.jpg');">
+                            <div class="gallery-card-content">
+                                <h3 class="text-2xl font-bold">Simplicidade e Funcionalidade</h3>
+                                <p class="text-sm">Um design minimalista focado na eficiência e na beleza dos materiais.</p>
                             </div>
                         </div>
                     </div>
                     <!-- Card 5 -->
                     <div class="card-container">
-                        <div class="p-4 bg-white rounded-3xl shadow-2xl border border-gray-100 transform transition-transform duration-300 hover:scale-105">
-                            <img src="https://i.pinimg.com/736x/d3/4b/e5/d34be5e1c0ed2393ee87ad7a81326c00.jpg" alt="Galinheiro em formato de celeiro" class="w-full h-72 object-cover rounded-2xl mb-4 card-image">
-                            <div class="px-2 pb-2">
-                                <h3 class="text-xl font-bold text-deep-green mb-1">Charme de Celeiro</h3>
-                                <p class="text-sm text-gray-600">Um estilo que evoca a tradição, com um toque moderno para o máximo conforto.</p>
+                        <div class="gallery-card" style="background-image: url('https://i.pinimg.com/736x/d3/4b/e5/d34be5e1c0ed2393ee87ad7a81326c00.jpg');">
+                            <div class="gallery-card-content">
+                                <h3 class="text-2xl font-bold">Charme de Celeiro</h3>
+                                <p class="text-sm">Um estilo que evoca a tradição, com um toque moderno para o máximo conforto.</p>
                             </div>
                         </div>
                     </div>
                     <!-- Card 6 -->
                     <div class="card-container">
-                        <div class="p-4 bg-white rounded-3xl shadow-2xl border border-gray-100 transform transition-transform duration-300 hover:scale-105">
-                            <img src="https://m.media-amazon.com/images/I/91KeMRcKJyL._UF350,350_QL80_.jpg" alt="Galinheiro integrado a um jardim" class="w-full h-72 object-cover rounded-2xl mb-4 card-image">
-                            <div class="px-2 pb-2">
-                                <h3 class="text-xl font-bold text-deep-green mb-1">Harmonia com o Jardim</h3>
-                                <p class="text-sm text-gray-600">Integração perfeita com o paisagismo, tornando o galinheiro parte da decoração.</p>
+                        <div class="gallery-card" style="background-image: url('https://m.media-amazon.com/images/I/91KeMRcKJyL._UF350,350_QL80_.jpg');">
+                            <div class="gallery-card-content">
+                                <h3 class="text-2xl font-bold">Harmonia com o Jardim</h3>
+                                <p class="text-sm">Integração perfeita com o paisagismo, tornando o galinheiro parte da decoração.</p>
                             </div>
                         </div>
                     </div>
