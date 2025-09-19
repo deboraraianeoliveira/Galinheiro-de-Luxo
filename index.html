@@ -62,17 +62,6 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.08);
         }
-        .gallery-item {
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.4s ease, border-radius 0.4s ease, box-shadow 0.4s ease;
-        }
-        .gallery-item img {
-            transition: transform 0.4s ease;
-        }
-        .gallery-item:hover img {
-            transform: scale(1.05);
-        }
         .timeline-item::before {
             content: '';
             position: absolute;
@@ -92,53 +81,6 @@
             margin-right: auto;
             height: 400px;
             max-height: 50vh;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: rgba(0,0,0,0.9);
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-        }
-        .modal.active {
-            display: flex;
-            opacity: 1;
-        }
-        .modal-content {
-            margin: auto;
-            display: block;
-            width: 80%;
-            max-width: 700px;
-            animation-name: zoom;
-            animation-duration: 0.6s;
-            position: relative;
-        }
-        @keyframes zoom {
-            from {transform: scale(0.1)} 
-            to {transform: scale(1)}
-        }
-        .close {
-            position: absolute;
-            top: 15px;
-            right: 35px;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .close:hover,
-        .close:focus {
-            color: #bbb;
-            text-decoration: none;
-            cursor: pointer;
         }
         .accordion-item {
             border-radius: 0.75rem;
@@ -237,18 +179,52 @@
             opacity: 1;
             transform: translateY(0);
         }
-
-        /* Otimização do modal de imagem para dispositivos menores */
-        @media (max-width: 768px) {
-            .modal-content {
-                width: 90%;
-                max-width: 90%;
-            }
-            #modal-image {
-                max-height: 80vh; /* Garante que a imagem não ultrapasse a altura da tela */
-                object-fit: contain; /* Redimensiona a imagem para caber na tela sem distorcer */
-            }
+        
+        /* Esconder a barra de rolagem mas permitir a funcionalidade */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
         }
+        .no-scrollbar {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+
+        /* Estilos para o carrossel de cards */
+        .carousel-wrapper {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scroll-snap-type: x mandatory;
+            gap: 1.5rem;
+            padding-bottom: 1rem;
+        }
+        
+        .card-container {
+            flex-shrink: 0;
+            width: 80vw;
+            max-width: 400px;
+            scroll-snap-align: center;
+        }
+        
+        .carousel-button {
+            background-color: rgba(61, 85, 58, 0.7);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.2s ease;
+        }
+        .carousel-button:hover {
+            background-color: rgba(61, 85, 58, 1);
+            transform: scale(1.1);
+        }
+
+        .card-image {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05);
+        }
+
     </style>
 </head>
 <body class="bg-cream">
@@ -278,7 +254,7 @@
             </div>
         </nav>
         
-        <!-- Menu lateral para celular (funcionalidade temporariamente desabilitada) -->
+        <!-- Menu lateral para celular -->
         <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-64 h-full bg-deep-green text-white shadow-lg p-6 flex flex-col items-start space-y-4 md:hidden z-[1000]">
             <button id="close-menu-btn" class="self-end text-white text-3xl focus:outline-none">&times;</button>
             <a href="#philosophy" class="nav-link text-white text-lg w-full py-2">Filosofia</a>
@@ -404,31 +380,88 @@
         </section>
 
         <section id="gallery" class="section-animation py-20 bg-white">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
+            <div class="container mx-auto px-6 mb-12">
+                <div class="text-center">
                     <h2 class="text-3xl md:text-4xl font-bold text-deep-green">Galeria de Inspirações</h2>
                     <p class="mt-4 text-gray-600 max-w-2xl mx-auto">Cada projeto é único, refletindo a personalidade do proprietário e a harmonia com o ambiente. Veja alguns de nossos trabalhos.</p>
                 </div>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="gallery-item rounded-xl overflow-hidden shadow-lg border-4 border-white transform hover:scale-105 transition-transform duration-300">
-                        <img src="https://blogdageminiana.wordpress.com/wp-content/uploads/2013/07/05273-untitled6.png" data-full="https://blogdageminiana.wordpress.com/wp-content/uploads/2013/07/05273-untitled6.png" alt="Galinheiro estilo rústico com madeira natural" class="w-full h-64 object-cover">
+            </div>
+            <!-- Carrossel de Cards -->
+            <div class="relative max-w-screen-xl mx-auto">
+                <div id="carousel-wrapper" class="flex overflow-x-auto scroll-smooth no-scrollbar snap-x snap-mandatory gap-6 px-4 py-4">
+                    <!-- Card 1 -->
+                    <div class="card-container">
+                        <div class="p-4 bg-white rounded-3xl shadow-2xl border border-gray-100 transform transition-transform duration-300 hover:scale-105">
+                            <img src="https://blogdageminiana.wordpress.com/wp-content/uploads/2013/07/05273-untitled6.png" alt="Galinheiro estilo rústico" class="w-full h-72 object-cover rounded-2xl mb-4 card-image">
+                            <div class="px-2 pb-2">
+                                <h3 class="text-xl font-bold text-deep-green mb-1">Elegância Rústica</h3>
+                                <p class="text-sm text-gray-600">Um design atemporal que combina perfeitamente com a paisagem natural.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="gallery-item rounded-xl overflow-hidden shadow-lg border-4 border-white transform hover:scale-105 transition-transform duration-300">
-                        <img src="https://i.pinimg.com/236x/f7/ff/4d/f7ff4d8d9038a8ba407260757350eba7.jpg" data-full="https://i.pinimg.com/236x/f7/ff/4d/f7ff4d8d9038a8ba407260757350eba7.jpg" alt="Galinheiro com design moderno e linhas retas" class="w-full h-64 object-cover">
+                    <!-- Card 2 -->
+                    <div class="card-container">
+                        <div class="p-4 bg-white rounded-3xl shadow-2xl border border-gray-100 transform transition-transform duration-300 hover:scale-105">
+                            <img src="https://i.pinimg.com/236x/f7/ff/4d/f7ff4d8d9038a8ba407260757350eba7.jpg" alt="Galinheiro com design moderno e linhas retas" class="w-full h-72 object-cover rounded-2xl mb-4 card-image">
+                            <div class="px-2 pb-2">
+                                <h3 class="text-xl font-bold text-deep-green mb-1">Minimalismo Moderno</h3>
+                                <p class="text-sm text-gray-600">Linhas limpas e materiais contemporâneos para uma estética sofisticada.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="gallery-item rounded-xl overflow-hidden shadow-lg border-4 border-white transform hover:scale-105 transition-transform duration-300">
-                        <img src="https://cdn.leroymerlin.com.br/products/galinheiro_madeira_movel_casinha_animais_pet_coelho_1567041542_da96_600x600.jpg" data-full="https://cdn.leroymerlin.com.br/products/galinheiro_madeira_movel_casinha_animais_pet_coelho_1567041542_da96_600x600.jpg" alt="Galinheiro clássico com telhado de duas águas" class="w-full h-64 object-cover">
+                    <!-- Card 3 -->
+                    <div class="card-container">
+                        <div class="p-4 bg-white rounded-3xl shadow-2xl border border-gray-100 transform transition-transform duration-300 hover:scale-105">
+                            <img src="https://cdn.leroymerlin.com.br/products/galinheiro_madeira_movel_casinha_animais_pet_coelho_1567041542_da96_600x600.jpg" alt="Galinheiro clássico" class="w-full h-72 object-cover rounded-2xl mb-4 card-image">
+                            <div class="px-2 pb-2">
+                                <h3 class="text-xl font-bold text-deep-green mb-1">Clássico Tradicional</h3>
+                                <p class="text-sm text-gray-600">Um design que remete aos galinheiros de fazenda, com todo o luxo e conforto.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="gallery-item rounded-xl overflow-hidden shadow-lg border-4 border-white transform hover:scale-105 transition-transform duration-300">
-                        <img src="https://i.etsystatic.com/43986965/r/il/a23ad5/6311287940/il_570xN.6311287940_1mbk.jpg" data-full="https://i.etsystatic.com/43986965/r/il/a23ad5/6311287940_1mbk.jpg" alt="Galinheiro de design minimalista" class="w-full h-64 object-cover">
+                    <!-- Card 4 -->
+                    <div class="card-container">
+                        <div class="p-4 bg-white rounded-3xl shadow-2xl border border-gray-100 transform transition-transform duration-300 hover:scale-105">
+                            <img src="https://i.etsystatic.com/43986965/r/il/a23ad5/6311287940/il_570xN.6311287940_1mbk.jpg" alt="Galinheiro minimalista" class="w-full h-72 object-cover rounded-2xl mb-4 card-image">
+                            <div class="px-2 pb-2">
+                                <h3 class="text-xl font-bold text-deep-green mb-1">Simplicidade e Funcionalidade</h3>
+                                <p class="text-sm text-gray-600">Um design minimalista focado na eficiência e na beleza dos materiais.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="gallery-item rounded-xl overflow-hidden shadow-lg border-4 border-white transform hover:scale-105 transition-transform duration-300">
-                        <img src="https://i.pinimg.com/736x/d3/4b/e5/d34be5e1c0ed2393ee87ad7a81326c00.jpg" data-full="https://i.pinimg.com/736x/d3/4b/e5/d34be5e1c0ed2393ee87ad7a81326c00.jpg" alt="Galinheiro com formato de celeiro" class="w-full h-64 object-cover">
+                    <!-- Card 5 -->
+                    <div class="card-container">
+                        <div class="p-4 bg-white rounded-3xl shadow-2xl border border-gray-100 transform transition-transform duration-300 hover:scale-105">
+                            <img src="https://i.pinimg.com/736x/d3/4b/e5/d34be5e1c0ed2393ee87ad7a81326c00.jpg" alt="Galinheiro em formato de celeiro" class="w-full h-72 object-cover rounded-2xl mb-4 card-image">
+                            <div class="px-2 pb-2">
+                                <h3 class="text-xl font-bold text-deep-green mb-1">Charme de Celeiro</h3>
+                                <p class="text-sm text-gray-600">Um estilo que evoca a tradição, com um toque moderno para o máximo conforto.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="gallery-item rounded-xl overflow-hidden shadow-lg border-4 border-white transform hover:scale-105 transition-transform duration-300">
-                        <img src="https://m.media-amazon.com/images/I/91KeMRcKJyL._UF350,350_QL80_.jpg" data-full="https://m.media-amazon.com/images/I/91KeMRcKJyL._UF350,350_QL80_.jpg" alt="Galinheiro integrado a um jardim florido" class="w-full h-64 object-cover">
+                    <!-- Card 6 -->
+                    <div class="card-container">
+                        <div class="p-4 bg-white rounded-3xl shadow-2xl border border-gray-100 transform transition-transform duration-300 hover:scale-105">
+                            <img src="https://m.media-amazon.com/images/I/91KeMRcKJyL._UF350,350_QL80_.jpg" alt="Galinheiro integrado a um jardim" class="w-full h-72 object-cover rounded-2xl mb-4 card-image">
+                            <div class="px-2 pb-2">
+                                <h3 class="text-xl font-bold text-deep-green mb-1">Harmonia com o Jardim</h3>
+                                <p class="text-sm text-gray-600">Integração perfeita com o paisagismo, tornando o galinheiro parte da decoração.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <!-- Botão de rolagem para a esquerda -->
+                <button id="prev-btn" class="carousel-button absolute top-1/2 -translate-y-1/2 left-2 hidden md:block">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </button>
+                <!-- Botão de rolagem para a direita -->
+                <button id="next-btn" class="carousel-button absolute top-1/2 -translate-y-1/2 right-2 hidden md:block">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </button>
             </div>
         </section>
         
@@ -472,22 +505,6 @@
             </div>
         </section>
     </main>
-
-    <!-- Modal de imagem para visualização em tela cheia -->
-    <div id="image-modal" class="modal" onclick="closeModal()">
-        <span class="close">&times;</span>
-        <img class="modal-content" id="modal-image">
-        <button id="prev-btn" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 text-white p-3 rounded-full shadow-lg hover:bg-white/40 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-        </button>
-        <button id="next-btn" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 text-white p-3 rounded-full shadow-lg hover:bg-white/40 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-        </button>
-    </div>
 
     <footer class="bg-white py-8">
         <div class="container mx-auto px-6 text-center text-gray-600">
@@ -593,6 +610,10 @@
                                             return `${context.dataset.label}: ${context.raw} ovos`;
                                         }
                                     }
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Produção Estimada de Ovos'
                                 }
                             },
                             scales: {
@@ -614,53 +635,7 @@
             });
 
             updateChart(chickenSlider.value);
-            
-            // Modal de imagem
-            const modal = document.getElementById("image-modal");
-            const modalImg = document.getElementById("modal-image");
-            const galleryItems = document.querySelectorAll(".gallery-item img");
-            const prevBtn = document.getElementById("prev-btn");
-            const nextBtn = document.getElementById("next-btn");
-            let currentImageIndex = 0;
-            const images = Array.from(galleryItems).map(img => img.dataset.full);
 
-            // Abre o modal e mostra a imagem clicada
-            galleryItems.forEach((item, index) => {
-                item.addEventListener("click", () => {
-                    currentImageIndex = index;
-                    modalImg.src = images[currentImageIndex];
-                    modal.classList.add("active");
-                });
-            });
-
-            // Fecha o modal
-            window.closeModal = function() {
-                modal.classList.remove("active");
-            }
-
-            // Função para navegar para a próxima imagem
-            function showNextImage() {
-                currentImageIndex = (currentImageIndex + 1) % images.length;
-                modalImg.src = images[currentImageIndex];
-            }
-
-            // Função para navegar para a imagem anterior
-            function showPrevImage() {
-                currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-                modalImg.src = images[currentImageIndex];
-            }
-
-            // Adiciona eventos de clique aos botões de navegação
-            nextBtn.addEventListener("click", (e) => {
-                e.stopPropagation(); // Impede que o clique feche o modal
-                showNextImage();
-            });
-
-            prevBtn.addEventListener("click", (e) => {
-                e.stopPropagation(); // Impede que o clique feche o modal
-                showPrevImage();
-            });
-            
             // Rolagem suave
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
@@ -669,6 +644,46 @@
                         behavior: 'smooth'
                     });
                 });
+            });
+
+            // Lógica do menu mobile
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const closeMenuBtn = document.getElementById('close-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.add('open');
+            });
+
+            closeMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+            });
+            
+            // Fecha o menu ao clicar em um link
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('open');
+                });
+            });
+
+            // Lógica do carrossel
+            const carouselWrapper = document.getElementById('carousel-wrapper');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            
+            nextBtn.addEventListener('click', () => {
+                const card = carouselWrapper.querySelector('.card-container');
+                const cardWidth = card.offsetWidth;
+                const gap = 24; 
+                carouselWrapper.scrollBy({ left: cardWidth + gap, behavior: 'smooth' });
+            });
+
+            prevBtn.addEventListener('click', () => {
+                const card = carouselWrapper.querySelector('.card-container');
+                const cardWidth = card.offsetWidth;
+                const gap = 24; 
+                carouselWrapper.scrollBy({ left: -(cardWidth + gap), behavior: 'smooth' });
             });
         });
     </script>
