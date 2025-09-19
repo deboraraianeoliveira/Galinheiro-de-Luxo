@@ -162,12 +162,12 @@
         
         /* Estilos do menu mobile */
         .mobile-menu {
-            transition: transform 0.3s ease-in-out;
-            transform: translateX(100%);
+            transition: right 0.3s ease-in-out;
+            right: -100%;
             z-index: 1000;
         }
         .mobile-menu.open {
-            transform: translateX(0);
+            right: 0;
         }
 
         /* Animações de Scroll-Triggered */
@@ -260,7 +260,7 @@
         </nav>
         
         <!-- Menu lateral para celular -->
-        <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-64 h-full bg-deep-green text-white shadow-lg p-6 flex flex-col items-start space-y-4 md:hidden z-[1000] opacity-100">
+        <div id="mobile-menu" class="mobile-menu fixed top-0 w-64 h-full bg-deep-green text-white shadow-lg p-6 flex flex-col items-start space-y-4 md:hidden z-[1000]">
             <button id="close-menu-btn" class="self-end text-white text-3xl focus:outline-none">&times;</button>
             <a href="#philosophy" class="nav-link text-white text-lg w-full py-2">Filosofia</a>
             <a href="#features" class="nav-link text-white text-lg w-full py-2">Diferenciais</a>
