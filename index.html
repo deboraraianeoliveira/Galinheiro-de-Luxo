@@ -15,6 +15,7 @@
             font-family: 'Montserrat', sans-serif;
             background-color: #FDFBF8;
             color: #4A4A4A;
+            overflow-x: hidden; /* Fixa o problema de rolagem horizontal */
         }
         h1, h2, h3 {
             font-family: 'Montserrat', sans-serif;
@@ -198,6 +199,10 @@
             scroll-snap-type: x mandatory;
             gap: 1.5rem;
             padding-bottom: 1rem;
+            /* Corrigindo o problema de rolagem horizontal */
+            width: 100%; 
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
         }
         
         .card-container {
@@ -255,7 +260,7 @@
         </nav>
         
         <!-- Menu lateral para celular -->
-        <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-64 h-full bg-deep-green text-white shadow-lg p-6 flex flex-col items-start space-y-4 md:hidden z-[1000]">
+        <div id="mobile-menu" class="mobile-menu fixed top-0 right-0 w-64 h-full bg-deep-green text-white shadow-lg p-6 flex flex-col items-start space-y-4 md:hidden z-[1000] opacity-100">
             <button id="close-menu-btn" class="self-end text-white text-3xl focus:outline-none">&times;</button>
             <a href="#philosophy" class="nav-link text-white text-lg w-full py-2">Filosofia</a>
             <a href="#features" class="nav-link text-white text-lg w-full py-2">Diferenciais</a>
@@ -388,7 +393,7 @@
             </div>
             <!-- Carrossel de Cards -->
             <div class="relative max-w-screen-xl mx-auto">
-                <div id="carousel-wrapper" class="flex overflow-x-auto scroll-smooth no-scrollbar snap-x snap-mandatory gap-6 px-4 py-4">
+                <div id="carousel-wrapper" class="flex overflow-x-auto scroll-smooth no-scrollbar snap-x snap-mandatory gap-6">
                     <!-- Card 1 -->
                     <div class="card-container">
                         <div class="p-4 bg-white rounded-3xl shadow-2xl border border-gray-100 transform transition-transform duration-300 hover:scale-105">
