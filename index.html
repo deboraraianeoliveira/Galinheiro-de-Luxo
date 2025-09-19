@@ -15,7 +15,6 @@
             font-family: 'Montserrat', sans-serif;
             background-color: #FDFBF8;
             color: #4A4A4A;
-            overflow-x: hidden; /* Fixa o problema de rolagem horizontal */
         }
         h1, h2, h3 {
             font-family: 'Montserrat', sans-serif;
@@ -160,16 +159,6 @@
             color: white; 
         }
         
-        /* Estilos do menu mobile */
-        .mobile-menu {
-            transition: right 0.3s ease-in-out;
-            right: -100%;
-            z-index: 1000;
-        }
-        .mobile-menu.open {
-            right: 0;
-        }
-
         /* Animações de Scroll-Triggered */
         .section-animation {
             opacity: 0;
@@ -199,7 +188,6 @@
             scroll-snap-type: x mandatory;
             gap: 1.5rem;
             padding-bottom: 1rem;
-            /* Corrigindo o problema de rolagem horizontal */
             width: 100%; 
             padding-left: 1.5rem;
             padding-right: 1.5rem;
@@ -229,6 +217,16 @@
         .card-image {
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.05);
         }
+        
+        .mobile-nav {
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+            max-height: 0;
+        }
+        
+        .mobile-nav.open {
+            max-height: 500px;
+        }
 
     </style>
 </head>
@@ -249,24 +247,28 @@
             </div>
             
             <!-- Botões para celular -->
-            <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-4 md:hidden">
                 <a href="#contact" class="btn-primary font-bold py-2 px-6 rounded-full shadow-md">
                     Consultoria
                 </a>
-                <button id="mobile-menu-btn" class="md:hidden text-deep-green text-3xl focus:outline-none">
-                    &#9776;
-                </button>
+                <button id="mobile-menu-btn" class="text-deep-green text-3xl focus:outline-none">&#9776;</button>
+            </div>
+            <div class="hidden md:block">
+                <a href="#contact" class="btn-primary font-bold py-2 px-6 rounded-full shadow-md">
+                    Consultoria
+                </a>
             </div>
         </nav>
-        
-        <!-- Menu lateral para celular -->
-        <div id="mobile-menu" class="mobile-menu fixed top-0 w-64 h-full bg-deep-green text-white shadow-lg p-6 flex flex-col items-start space-y-4 md:hidden z-[1000]">
-            <button id="close-menu-btn" class="self-end text-white text-3xl focus:outline-none">&times;</button>
-            <a href="#philosophy" class="nav-link text-white text-lg w-full py-2">Filosofia</a>
-            <a href="#features" class="nav-link text-white text-lg w-full py-2">Diferenciais</a>
-            <a href="#calculator" class="nav-link text-white text-lg w-full py-2">Valor</a>
-            <a href="#gallery" class="nav-link text-white text-lg w-full py-2">Galeria</a>
-            <a href="#process" class="nav-link text-white text-lg w-full py-2">Processo</a>
+
+        <!-- Menu dropdown para celular -->
+        <div id="mobile-nav" class="mobile-nav bg-deep-green text-white md:hidden">
+            <div class="flex flex-col items-start px-6 py-4 space-y-2">
+                <a href="#philosophy" class="nav-link text-white text-lg w-full py-2">Filosofia</a>
+                <a href="#features" class="nav-link text-white text-lg w-full py-2">Diferenciais</a>
+                <a href="#calculator" class="nav-link text-white text-lg w-full py-2">Valor</a>
+                <a href="#gallery" class="nav-link text-white text-lg w-full py-2">Galeria</a>
+                <a href="#process" class="nav-link text-white text-lg w-full py-2">Processo</a>
+            </div>
         </div>
     </header>
 
@@ -653,22 +655,17 @@
 
             // Lógica do menu mobile
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-            const closeMenuBtn = document.getElementById('close-menu-btn');
-            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileNav = document.getElementById('mobile-nav');
 
             mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.add('open');
-            });
-
-            closeMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.remove('open');
+                mobileNav.classList.toggle('open');
             });
             
             // Fecha o menu ao clicar em um link
-            const mobileLinks = mobileMenu.querySelectorAll('a');
+            const mobileLinks = mobileNav.querySelectorAll('a');
             mobileLinks.forEach(link => {
                 link.addEventListener('click', () => {
-                    mobileMenu.classList.remove('open');
+                    mobileNav.classList.remove('open');
                 });
             });
 
