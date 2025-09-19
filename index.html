@@ -237,6 +237,18 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* Otimização do modal de imagem para dispositivos menores */
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 90%;
+                max-width: 90%;
+            }
+            #modal-image {
+                max-height: 80vh; /* Garante que a imagem não ultrapasse a altura da tela */
+                object-fit: contain; /* Redimensiona a imagem para caber na tela sem distorcer */
+            }
+        }
     </style>
 </head>
 <body class="bg-cream">
